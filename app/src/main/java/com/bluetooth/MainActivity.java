@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView wilg2TextView;
     private TextView feedbackTextView;
     private BluetoothSocket btSocket;
+    private ConnectedThread mConnectedThread;
 
     private List<BluetoothDevice> bluetoothDeviceList = new ArrayList<>();
 
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     int i;
     float t1;
     private StringBuilder sb = new StringBuilder();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +108,19 @@ public class MainActivity extends AppCompatActivity {
         wyslijButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String temp1 = temp1TextView.getText().toString()
+                        .substring(temp1TextView.getText().toString().lastIndexOf("=") + 1);
+                String temp2 = temp2TextView.getText().toString()
+                        .substring(temp2TextView.getText().toString().lastIndexOf("=") + 1);
+                String wilg1 = wilg1TextView.getText().toString()
+                        .substring(temp1TextView.getText().toString().lastIndexOf("=") + 1);
+                String wilg2 = wilg2TextView.getText().toString()
+                        .substring(wilg2TextView.getText().toString().lastIndexOf("=") + 1);
 
+                mConnectedThread.write("#t1~" + temp1 + "#" +
+                        "#t2~" + temp2 + "#" +
+                        "#h1~" + wilg1 + "#" +
+                        "#h2~" + wilg2 + "#");
             }
         });
 
@@ -130,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    final ConnectedThread mConnectedThread = new ConnectedThread(btSocket);
+                    mConnectedThread = new ConnectedThread(btSocket);
                     mConnectedThread.start();
 
                     Runnable mStatusChecker = new Runnable() {
@@ -142,8 +154,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     };
 
-                    Thread thread = new Thread(mStatusChecker);
-                    thread.start();
+                    Thread feedbackThread = new Thread(mStatusChecker);
+                    feedbackThread.start();
 
                 }
             }
