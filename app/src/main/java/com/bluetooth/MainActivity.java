@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,6 +26,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         temp2TextView = (TextView) findViewById(R.id.temp2_text_view);
         wilg1TextView = (TextView) findViewById(R.id.wilg1_text_view);
         wilg2TextView = (TextView) findViewById(R.id.wilg2_text_view);
+
+        Button wyslijButton = (Button) findViewById(R.id.wyslij_button);
+        wyslijButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         // inicjalizacja konfiguracji (kury, gesi..)
         ArrayAdapter<CharSequence> configAdapter = ArrayAdapter.createFromResource(this,
