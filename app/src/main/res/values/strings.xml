@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Bluetooth</string>
+
+    <string-array name="config_array">
+        <item>Kury</item>
+        <item>Gęsi</item>
+    </string-array>
+
+</resources>
