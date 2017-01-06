@@ -115,8 +115,6 @@ public class MainActivity extends AppCompatActivity {
         Button polaczButton = (Button) findViewById(R.id.polacz_button);
         // laczenie ze sterownikiem
         polaczButton.setOnClickListener(new View.OnClickListener() {
-            BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-
             @Override
             public void onClick(View view) {
                 {
