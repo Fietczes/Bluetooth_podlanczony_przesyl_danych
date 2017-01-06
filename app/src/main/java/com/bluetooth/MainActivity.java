@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView wilg1TextView;
     private TextView wilg2TextView;
     private TextView feedbackTextView;
+    private BluetoothSocket btSocket;
 
     Handler h;
     int i;
@@ -112,50 +112,34 @@ public class MainActivity extends AppCompatActivity {
         Button wyslijButton = (Button) findViewById(R.id.wyslij_button);
         // wysylanie danych
         wyslijButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        Button polaczButton = (Button) findViewById(R.id.polacz_button);
+        // laczenie ze sterownikiem
+        polaczButton.setOnClickListener(new View.OnClickListener() {
             BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 
             @Override
             public void onClick(View view) {
-                startRepeatingTask();
+                // startRepeatingTask();
                 {
                     btAdapter.startDiscovery();
-                    BluetoothDevice device = null;
-                    try {
-                        btSocket.close();
-                    } catch (IOException e2) {
-                        errorExit("Fatal Error", "In onPause() and failed to close socket." + e2.getMessage() + ".");
+
+                    List<BluetoothDevice> searchList = new ArrayList<>();
+                    BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                    Iterable<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+
+                    for (BluetoothDevice bluetoothDevice : pairedDevices) {
+                        searchList.add(bluetoothDevice);
                     }
-
-                    String sterownik = bluetoothSpinner.getSelectedItem().toString();
-
                     try {
-                        BluetoothAdapter btInterface;//Tworzymy nasze urzadzenie bluetooth (tzn obiekt posidajacy wszystkie parametry takiego urzadzenia)
-                        List<String> s = new ArrayList<String>();//Tworzymy nową listę Stringów
-
-
-                        btInterface = BluetoothAdapter.getDefaultAdapter();
-                        Iterable<BluetoothDevice> pairedDevices = btInterface.getBondedDevices();
-
-                        Iterator<BluetoothDevice> it = pairedDevices.iterator();
-
-                        for (BluetoothDevice bt : pairedDevices) {//for dal wszystkich urzadzen
-                            if (bt.getName().equalsIgnoreCase(sterownik))//dla wszystkich
-                            {
-                                btAdapter = BluetoothAdapter.getDefaultAdapter();
-                                address = bt.getAddress();//zeby lanczylo z automatu
-                                device = bt;
-                            }
-
-                        }
-
-                    } catch (Exception e) {
-                        Log.e(TAG, "bład w szukaniu urzadzen" + e.getMessage());
-                    }
-
-                    try {
-                        btSocket = createBluetoothSocket(device);
+                        btSocket = createBluetoothSocket(searchList.get(bluetoothSpinner.getSelectedItemPosition()));
                     } catch (IOException e) {
-                        errorExit("Fatal Error", "In onResume() and socket create failed: nie utworylo socketa" + e.getMessage() + ".");
+                        e.printStackTrace();
                     }
 
                     btAdapter.cancelDiscovery();
@@ -166,23 +150,14 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             btSocket.close();
                         } catch (IOException e2) {
-                            errorExit("Fatal Error", "In onResume() and unable to close socket during connection failure" + e2.getMessage() + ".");
+                            e2.printStackTrace();
                         }
                     }
 
-                    mConnectedThread = new ConnectedThread(btSocket);//utworzenie objektu klasy rozszerzającego wątek główny
-                    mConnectedThread.start();//uruchomienie tego wątku (chyba jest to metoda run w kalsie którą przedstawia ten wontek)
+                    ConnectedThread mConnectedThread = new ConnectedThread(btSocket);
+                    mConnectedThread.start();
 
                 }
-            }
-        });
-
-        Button polaczButton = (Button) findViewById(R.id.polacz_button);
-        // laczenie ze sterownikiem
-        polaczButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
             }
         });
 
