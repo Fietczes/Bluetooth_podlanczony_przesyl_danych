@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                // startRepeatingTask();
                 {
                     try {
                         btSocket = createBluetoothSocket(bluetoothDeviceList.get(bluetoothSpinner.getSelectedItemPosition()));
@@ -133,8 +132,20 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    ConnectedThread mConnectedThread = new ConnectedThread(btSocket);
+                    final ConnectedThread mConnectedThread = new ConnectedThread(btSocket);
                     mConnectedThread.start();
+
+                    Runnable mStatusChecker = new Runnable() {
+                        @Override
+                        public void run() {
+                            String string = ("r");
+                            string.concat("\n");
+                            mConnectedThread.write(string);
+                        }
+                    };
+
+                    Thread thread = new Thread(mStatusChecker);
+                    thread.start();
 
                 }
             }
@@ -227,6 +238,15 @@ public class MainActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     break;
                 }
+            }
+        }
+
+        public void write(String message) {
+            byte[] msgBuffer = message.getBytes();
+            try {
+                mmOutStream.write(msgBuffer);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
