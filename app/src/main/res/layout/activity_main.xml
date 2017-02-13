@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,7 +15,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.bluetooth.MainActivity">
+    tools:context="com.bluetooth.MainActivity"
+    >
 
     <Spinner
         android:id="@+id/config_spinner"
@@ -18,11 +25,19 @@
         android:layout_marginTop="16dp" />
 
     <TextView
-        android:id="@+id/temp1_text_view"
+        android:id="@+id/czas_do_klucia_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="36dp"
+        android:text="Czas inkubacji = "
+        android:textSize="23sp" />
+
+    <TextView
+        android:id="@+id/temp1_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Temperatura1[C] = "
         android:textSize="23sp" />
 
@@ -49,6 +64,51 @@
         android:layout_gravity="center"
         android:text="Wilgotność2[%] = "
         android:textSize="23sp" />
+
+    <TextView
+        android:id="@+id/przekr_odst_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Odstęp obracania[min] = "
+        android:textSize="23sp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/przekr_czas_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Czas obracania [s] = "
+        android:textSize="23sp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/wiatraki_odst_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Odstęp wentylacji [min] = "
+        android:textSize="23sp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/wiatraki_czas_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Czas wentylacji [s] = "
+        android:textSize="23sp"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Alarm = NIEAKTYWNY"
+        android:textSize="23sp"
+        android:textAlignment="center" />
 
     <Button
         android:id="@+id/wyslij_button"
@@ -83,3 +143,4 @@
         android:textSize="12sp" />
 
 </LinearLayout>
+</ScrollView>
